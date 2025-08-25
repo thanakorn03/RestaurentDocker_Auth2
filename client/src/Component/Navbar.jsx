@@ -1,24 +1,25 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import AuthService from '../service/auth.service'
 import Swal from "sweetalert2";
 import { useAuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
-  const { user, setUser } = useAuthContext();
+  const { user, logout } = useAuthContext(); // ใช้ logout จาก context
   const isLoggedIn = !!user; 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    AuthService.logout();
-    setUser(null);
-    Swal.fire({
-      icon: "success",
-      title: "ออกจากระบบสำเร็จ",
-      timer: 1200,
-      showConfirmButton: false,
-    });
-    // navigate("/login"); // ถ้าอยาก redirect หลัง logout
-  };
+  logout();
+  Swal.fire({
+    icon: "success",
+    title: "ออกจากระบบสำเร็จ",
+    timer: 1200,
+    showConfirmButton: false,
+  }).then(() => {
+    navigate("/login");
+  });
+};
 
   const MenuItem = [
     { name: "Home", url: "/" },

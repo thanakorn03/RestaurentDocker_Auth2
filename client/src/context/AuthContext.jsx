@@ -37,10 +37,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        console.log("🚪 Logout called");
-        AuthService.logout();
-        setUser(null);
-        Tokenservice.removeUser();
+    AuthService.logout();
+    setUser(null);
+    Tokenservice.removeUser();
     };
 
     // ลบ useEffect เก่าออก เพราะจะทำให้ infinite loop

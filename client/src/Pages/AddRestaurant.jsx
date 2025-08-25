@@ -1,13 +1,13 @@
-import React from 'react'
-import Navbar from '../Component/Navbar'
+import React, { useState } from 'react';
+import Navbar from '../Component/Navbar';
 import Swal from "sweetalert2";
 
 const AddRestaurant = () => {
-    const [restaurant, setRestaurant] = React.useState({
-        title: '',
-        type: '',
-        img: '',
-    });
+    const [restaurant, setRestaurant] = useState({
+    name: '',
+    type: '',
+    imageURL: '', // ต้องเป็น imageURL
+});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -17,7 +17,7 @@ const AddRestaurant = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!restaurant.title || !restaurant.type || !restaurant.img) {
+        if (!restaurant.name || !restaurant.type || !restaurant.imageURL) {
             Swal.fire({
                 icon: "warning",
                 title: "กรุณากรอกข้อมูลให้ครบทุกช่อง",
@@ -25,19 +25,13 @@ const AddRestaurant = () => {
             return;
         }
 
-        const newRestaurant = {
-            title: restaurant.title,
-            type: restaurant.type,
-            img: restaurant.img
-        };
-
         try {
             const response = await fetch('http://localhost:5000/api/v1/restaurants', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newRestaurant),
+                body: JSON.stringify(restaurant),
             });
 
             if (response.ok) {
@@ -47,7 +41,7 @@ const AddRestaurant = () => {
                     timer: 1200,
                     showConfirmButton: false,
                 });
-                setRestaurant({ title: '', type: '', img: '' });
+                setRestaurant({ name: '', type: '', imageURL: '' });
             } else {
                 const errorData = await response.json().catch(() => ({}));
                 Swal.fire({
@@ -73,7 +67,7 @@ const AddRestaurant = () => {
                 <div className="card w-full max-w-md bg-base-100 shadow-xl">
                     <figure className="px-10 pt-10">
                         <img
-                            src={restaurant.img || "https://media.istockphoto.com/id/2171382633/vector/user-profile-icon-anonymous-person-symbol-blank-avatar-graphic-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZwOF6NfOR0zhYC44xOX06ryIPAUhDvAajrPsaZ6v1-w="}
+                            src={restaurant.imageURL || "https://media.istockphoto.com/id/2171382633/vector/user-profile-icon-anonymous-person-symbol-blank-avatar-graphic-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZwOF6NfOR0zhYC44xOX06ryIPAUhDvAajrPsaZ6v1-w="}
                             alt="Upload"
                             className="rounded-xl w-32 h-32 object-cover"
                         />
@@ -82,57 +76,50 @@ const AddRestaurant = () => {
                         <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
                             <div>
                                 <label className="label">
-                                    <span className="label-text font-semibold">Restaurant Name</span>
+                                    <span className="label-text font-semibold">ชื่อร้านอาหาร</span>
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Name here"
-                                    className="input input-bordered w-full"
-                                    name="title"
+                                    name="name"
+                                    value={restaurant.name}
                                     onChange={handleChange}
-                                    value={restaurant.title}
-                                    required
+                                    className="input input-bordered w-full"
+                                    placeholder="กรุณากรอกชื่อร้านอาหาร"
                                 />
                             </div>
                             <div>
                                 <label className="label">
-                                    <span className="label-text font-semibold">Restaurant Details</span>
+                                    <span className="label-text font-semibold">ประเภทอาหาร</span>
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="ประเภทอาหาร"
-                                    className="input input-bordered w-full"
                                     name="type"
-                                    onChange={handleChange}
                                     value={restaurant.type}
-                                    required
+                                    onChange={handleChange}
+                                    className="input input-bordered w-full"
+                                    placeholder="กรุณากรอกประเภทอาหาร"
                                 />
                             </div>
                             <div>
                                 <label className="label">
-                                    <span className="label-text font-semibold">Image Restaurant</span>
+                                    <span className="label-text font-semibold">URL รูปภาพ</span>
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="URL รูปภาพ"
-                                    className="input input-bordered w-full"
-                                    name="img"
+                                    name="imageURL"
+                                    value={restaurant.imageURL}
                                     onChange={handleChange}
-                                    value={restaurant.img}
-                                    required
+                                    className="input input-bordered w-full"
+                                    placeholder="กรุณากรอก URL รูปภาพ"
                                 />
                             </div>
-                            <div className="card-actions justify-end">
-                                <button type="submit" className="btn btn-primary w-full">
-                                    Add Restaurant
-                                </button>
-                            </div>
+                            <button type="submit" className="btn btn-primary mt-4">เพิ่มร้านอาหาร</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AddRestaurant;
