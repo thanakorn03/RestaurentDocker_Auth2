@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/login";
-import Register from "./Pages/register";
+import Register from "..\Pages\Register.jsx";
 import AddRestaurant from "./Pages/AddRestaurant";
 import UpdateRestaurant from "./Pages/UpdateRestaurant";
 import Search from "./Pages/Search";
