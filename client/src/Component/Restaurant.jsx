@@ -1,17 +1,13 @@
-import React from 'react'
-import Card from './Card'
+import React from 'react';
+import Card from './Card';
+import { useAuthContext } from '../context/AuthContext';
 
 const Restaurant = ({ restaurants = [], onRefresh }) => {
-  // Debug: เช็คข้อมูลที่ได้รับ
-  console.log("🏪 Restaurant component - restaurants:", restaurants);
-  console.log("🏪 Restaurant component - restaurants length:", restaurants.length);
-  console.log("🏪 Restaurant component - restaurants type:", typeof restaurants);
+  const { user } = useAuthContext();
 
-  const handleDelete = (deletedId) => {
-    console.log("🗑️ Delete called for ID:", deletedId);
-    if (onRefresh) {
-      onRefresh();
-    }
+  const handleDelete = (id) => {
+    console.log("🗑️ Delete called for ID:", id);
+    if (onRefresh) onRefresh();
   };
 
   return (
@@ -19,16 +15,20 @@ const Restaurant = ({ restaurants = [], onRefresh }) => {
       <div className='flex flex-wrap justify-center items-center gap-6 px-4'>
         {restaurants.length > 0 ? (
           restaurants.map((restaurant) => {
-            console.log("🏪 Rendering restaurant:", restaurant); // Debug แต่ละ restaurant
+            const isOwner = user?.username === restaurant.owner; // owner check
+            const isAdmin = user?.roles?.includes("admin"); // role check
+            const canEditOrDelete = isOwner || isAdmin;
+
             return (
               <Card 
-                key={restaurant.id}
-                id={restaurant.id}
-                name={restaurant.name}
-                type={restaurant.type}
-                imageURL={restaurant.imageURL}
-                onDelete={handleDelete}
-              />
+  key={restaurant.id}
+  id={restaurant.id}
+  name={restaurant.name}
+  type={restaurant.type}
+  imageURL={restaurant.imageURL}
+  owner={restaurant.owner} // สำคัญ
+  onDelete={handleDelete}
+/>
             );
           })
         ) : (
@@ -41,7 +41,7 @@ const Restaurant = ({ restaurants = [], onRefresh }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Restaurant
+export default Restaurant;

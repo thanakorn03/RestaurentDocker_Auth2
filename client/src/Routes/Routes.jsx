@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../Pages/Home";
 import AddRestaurant from "../Pages/AddRestaurant";
 import UpdateRestaurant from "../Pages/UpdateRestaurant";
@@ -13,34 +13,14 @@ const NotFound = () => (
 );
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/add-restaurant",
-    element: <AddRestaurant />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/update-restaurant/:id",
-    element: <UpdateRestaurant />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+  { path: "/", element: <Home />, errorElement: <NotFound /> },
+  { path: "/add-restaurant", element: <AddRestaurant />, errorElement: <NotFound /> },
+  { path: "/update-restaurant/:id", element: <UpdateRestaurant />, errorElement: <NotFound /> },
+  { path: "/login", element: <Login />, errorElement: <NotFound /> },
+  { path: "/register", element: <Register />, errorElement: <NotFound /> },
+  { path: "*", element: <NotFound /> },
 ]);
-export default router;
+
+export default function AppRoutes() {
+  return <RouterProvider router={router} />;
+}

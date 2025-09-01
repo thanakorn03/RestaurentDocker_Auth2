@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import AuthService from "../service/auth.service";
 import "../Register.css";
 
 const Register = () => {
@@ -14,65 +13,64 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
-  try {
-    console.log('Sending data:', form); // Debug payload
-    
-    const response = await fetch('http://localhost:5000/api/v1/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      console.log("Sending data:", form);
 
-    console.log('Response status:', response.status); // Debug status
-    console.log('Response headers:', response.headers); // Debug headers
-    
-    // ตรวจสอบ response text ก่อน parse JSON
-    const responseText = await response.text();
-    console.log('Response text:', responseText); // Debug response
-    
-    let data = {};
-    if (responseText) {
-      try {
-        data = JSON.parse(responseText);
-      } catch (jsonError) {
-        console.error('JSON parse error:', jsonError);
-        throw new Error('Server returned invalid JSON: ' + responseText);
-      }
-    }
-
-    if (response.ok) {
-      Swal.fire({
-        icon: "success",
-        title: "สมัครสมาชิกสำเร็จ",
-        text: "กรุณาเข้าสู่ระบบ",
-        timer: 1500,
-        showConfirmButton: false,
+      // ✅ ใช้ proxy จาก vite.config.js
+      const response = await fetch("/api/v1/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
-      navigate("/login");
-    } else {
-      setError(data.message || "Register failed");
+
+      console.log("Response status:", response.status);
+
+      const responseText = await response.text();
+      console.log("Response text:", responseText);
+
+      let data = {};
+      if (responseText) {
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonError) {
+          console.error("JSON parse error:", jsonError);
+          throw new Error("Server returned invalid JSON: " + responseText);
+        }
+      }
+
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "สมัครสมาชิกสำเร็จ",
+          text: "กรุณาเข้าสู่ระบบ",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        navigate("/login");
+      } else {
+        setError(data.message || "Register failed");
+        Swal.fire({
+          icon: "error",
+          title: "สมัครสมาชิกไม่สำเร็จ",
+          text: data.message || "Register failed",
+        });
+      }
+    } catch (err) {
+      console.error("Register error:", err);
+      const msg = err.message || "Network error";
+      setError(msg);
       Swal.fire({
         icon: "error",
         title: "สมัครสมาชิกไม่สำเร็จ",
-        text: data.message || "Register failed",
+        text: msg,
       });
     }
-  } catch (err) {
-    console.error('Register error:', err);
-    const msg = err.message || "Network error";
-    setError(msg);
-    Swal.fire({
-      icon: "error",
-      title: "สมัครสมาชิกไม่สำเร็จ",
-      text: msg,
-    });
-  }
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <div className="register-container">
@@ -130,4 +128,5 @@ const handleSubmit = async (e) => {
     </div>
   );
 };
+
 export default Register;
