@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import sequelize from "./db.js"; // เชื่อมกับ instance Sequelize
+import sequelize from "./db.js"; // instance Sequelize
 
-const User = sequelize.define("users", {
+const User = sequelize.define("user", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,15 +28,9 @@ const User = sequelize.define("users", {
     type: DataTypes.STRING,
     allowNull: false
   }
+}, {
+  tableName: "users",
+  timestamps: true
 });
-User.sync({ force: true })
-  .then(() => {
-    console.log("Table created or already exists");
-  })
-  .catch((error) => {
-    console.log("Error creating table", error);
-  });
-
-
 
 export default User;
