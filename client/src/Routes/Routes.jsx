@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../Pages/Home";
 import AddRestaurant from "../Pages/AddRestaurant";
 import UpdateRestaurant from "../Pages/UpdateRestaurant";
-import Login from "../Pages/Login";
+import Login from "../Pages/login";
 import Register from "../Pages/Register"; // ✅ แก้ path
 
 const NotFound = () => (
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
   { path: "/", element: <Home />, errorElement: <NotFound /> },
   { path: "/add-restaurant", element: <AddRestaurant />, errorElement: <NotFound /> },
   { path: "/update-restaurant/:id", element: <UpdateRestaurant />, errorElement: <NotFound /> },
-  { path: "/login", element: <Login />, errorElement: <NotFound /> },
-  { path: "/register", element: <Register />, errorElement: <NotFound /> },
+  { path: "/Login", element: <Login />, errorElement: <NotFound /> },
+  { path: "/Register", element: <Register />, errorElement: <NotFound /> },
   { path: "*", element: <NotFound /> },
 ]);
 
