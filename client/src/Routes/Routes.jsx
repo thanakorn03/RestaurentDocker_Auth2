@@ -3,7 +3,7 @@ import Home from "../Pages/Home";
 import AddRestaurant from "../Pages/AddRestaurant";
 import UpdateRestaurant from "../Pages/UpdateRestaurant";
 import Login from "../Pages/login";
-import Register from "../Pages/register";
+import Register from "..\Pages\Register";
 
 const NotFound = () => (
   <div style={{ textAlign: "center", marginTop: 40 }}>
