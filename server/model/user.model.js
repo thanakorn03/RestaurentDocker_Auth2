@@ -30,7 +30,6 @@ const User = sequelize.define("users", {
   }
 });
 
-// ❌ ไม่ควร sync table ที่นี่
-// ✅ ให้ sync ที่ index.js รวม model ทั้งหมด
+
 
 export default User;
