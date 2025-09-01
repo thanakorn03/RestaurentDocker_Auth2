@@ -17,8 +17,8 @@ const allowedOrigins = [
   "https://restaurentdocker-auth2-client.onrender.com"
 ];
 
-app.use(cors({
-  origin: function(origin, callback){
+const corsOptions = {
+  origin: function(origin, callback) {
     if(!origin) return callback(null, true); // allow non-browser requests
     if(allowedOrigins.indexOf(origin) === -1){
       return callback(new Error(`CORS policy does not allow access from ${origin}`), false);
@@ -28,9 +28,12 @@ app.use(cors({
   credentials: true,
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
 
-app.options("*", cors());
+app.use(cors(corsOptions));
+
+// รองรับ preflight request ทุก route ด้วยตัว options
+app.options("*", cors(corsOptions));
 
 // Middleware
 app.use(express.json());
