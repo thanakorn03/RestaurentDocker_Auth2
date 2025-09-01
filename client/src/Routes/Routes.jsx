@@ -2,8 +2,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../Pages/Home";
 import AddRestaurant from "../Pages/AddRestaurant";
 import UpdateRestaurant from "../Pages/UpdateRestaurant";
-import Login from "../Pages/login";
-import Register from "..\Pages\Register";
+import Login from "../Pages/Login";
+import Register from "../Pages/Register"; // ✅ แก้ path
 
 const NotFound = () => (
   <div style={{ textAlign: "center", marginTop: 40 }}>
