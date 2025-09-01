@@ -12,13 +12,13 @@ const Role = sequelize.define("role", {
   },
 });
 
-// Role.sync({ force: true })
-//   .then(() => {
-//     Role.create({ id: 1, name: "user" });
-//     Role.create({ id: 2, name: "moderator" });
-//     Role.create({ id: 3, name: "admin" });
-//   })
-//   .catch((error) => {
-//     console.log("Error creating table", error);
-//   });
+Role.sync({ force: true })
+  .then(() => {
+    Role.create({ id: 1, name: "user" });
+    Role.create({ id: 2, name: "moderator" });
+    Role.create({ id: 3, name: "admin" });
+  })
+  .catch((error) => {
+    console.log("Error creating table", error);
+  });
 export default Role;
