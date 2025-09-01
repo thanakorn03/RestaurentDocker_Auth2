@@ -8,13 +8,12 @@ import db from './model/index.js';
 dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 5000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",
+    FRONTEND_URL,
     "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
     "http://192.168.2.34:5173"  // ✅ เพิ่มบรรทัดนี้
   ],
   credentials: true,
