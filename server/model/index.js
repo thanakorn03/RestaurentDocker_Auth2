@@ -1,26 +1,25 @@
 import sequelize from "../model/db.js";
 import { Sequelize } from "sequelize";
 import User from "./user.model.js";
-import Role from "./role.model.js";
+import Teacher from "./Teacher.js";
+import Admin from "./admin.js";
+import Judge from "./Judge.js";
+import VerificationToken from "./VerificationToken.js";
+import Activity from "./Activity.js";
 
 const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
 db.User = User;
-db.Role = Role;
+db.Activity = Activity;
+db.Teacher = Teacher;
+db.Admin = Admin;
+db.Judge = Judge;
+db.VerificationToken = VerificationToken;
+
 
 // Associations
-db.User.belongsToMany(db.Role, {
-    through: "user_roles",
-    foreignKey: "userUsername",  // Foreign key in user_roles table
-    otherKey: "roleId",          // Other foreign key in user_roles table
-    as: "roles"                  // Alias for easier queries
-});
-
-db.Role.belongsToMany(db.User, {
-    through: "user_roles", 
-    foreignKey: "roleId",        // Foreign key in user_roles table
-    otherKey: "userUsername",    // Other foreign key in user_roles table
-    as: "users"                  // Alias for easier queries
-});
+db.VerificationToken.belongsTo(db.User, { foreignKey: "userId" });
+db.User.belongsTo(db.VerificationToken, { foreignKey: "userId" });
 export default db;
