@@ -3,38 +3,14 @@ import sequelize from "./db.js"; // instance Sequelize
 import bcrypt from "bcryptjs";
 
 const User = sequelize.define("user", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true
-    }
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  isverified: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false, // ใช้ defaultValue แทน default
-    allowNull: false
-  }
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  username: { type: DataTypes.STRING, allowNull: false, unique: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false, unique: true, validate: { isEmail: true } },
+  password: { type: DataTypes.STRING, allowNull: false },
+  isverified: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false }
 }, {
+  tableName: "users",   // ✅ ใช้ชื่อ table ให้ตรงกับ FK
   hooks: {
     beforeCreate: async (user) => {
       if (user.password) {

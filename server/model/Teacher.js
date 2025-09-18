@@ -1,5 +1,7 @@
+// /app/model/Teacher.js
 import { DataTypes } from "sequelize";
-import User from "./user.model";
+import User from "./user.model.js"; // ตรวจสอบ path ให้ถูกต้อง
+import sequelize from "./db.js"; // path ต้องตรงกับ db.js จริง
 import bcrypt from "bcryptjs";
 
 const Teacher = User.init(
@@ -14,7 +16,8 @@ const Teacher = User.init(
     },
   },
   {
-
+    sequelize, // ✅ ต้องใส่ sequelize instance
+    modelName: "Teacher",
     scopes: {
       defaultScope: {
         where: {

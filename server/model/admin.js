@@ -1,19 +1,17 @@
-import { DataTypes } from "sequelize";
-import User from "./user.model";
-import bcrypt from "bcryptjs";
+import User from "./user.model.js";
+import sequelize from "./db.js";
 
 const Admin = User.init(
+  {},
   {
+    sequelize,
+    modelName: "Admin",
     scopes: {
-      defaultScope: {
-        where: {
-          type: "Admin",
-        },
-      },
+      defaultScope: { where: { type: "Admin" } },
     },
     hooks: {
-      beforeCreate: async (Admin) => {
-        Admin.type = "Admin";
+      beforeCreate: async (admin) => {
+        admin.type = "Admin";
       },
     },
   }

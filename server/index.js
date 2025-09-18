@@ -7,6 +7,7 @@ import authRoutes from './Routes/auth.routes.js';
 
 dotenv.config();
 const app = express();
+const NODE_ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 5000;
 
 // CORS
@@ -42,24 +43,17 @@ app.use(express.urlencoded({ extended: true }));
 // Database init
 const initializeDatabase = async () => {
   try {
-    await db.sequelize.sync({ alter: true });
-    console.log("Database synchronized");
-
-    const Role = db.Role;
-    const count = await Role.count();
-    if(count === 0){
-      await Role.bulkCreate([
-        { name: "user" },
-        { name: "moderator" },
-        { name: "admin" }
-      ]);
-      console.log("Default roles created");
+    await db.sequelize.authenticate();
+    console.log("Database connection established successfully.");
+    if (process.env.NODE_ENV === 'development') {
+      await db.sequelize.sync({ alter: true }); // ใช้ alter ในการอัปเดตตารางให้ตรงกับโมเดล
+      console.log("All models were synchronized successfully.");
     } else {
-      console.log("Roles already exist, skipping creation");
+      await db.sequelize.sync();
+      console.log("All models were synchronized successfully.");
     }
-
-  } catch(error){
-    console.error("Database initialization error:", error);
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
   }
 };
 
