@@ -62,7 +62,7 @@ app.get('/', (req,res) => {
   res.send('Restaurant Useful API');
 });
 
-app.use('/api/v1/restaurants', restaurantRoutes);
+app.use('/api/v1/activity', restaurantRoutes);
 app.use("/api/v1/auth", authRoutes);
 
 initializeDatabase().then(() => {

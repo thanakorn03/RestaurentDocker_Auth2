@@ -1,10 +1,10 @@
-// /app/model/Teacher.js
+// Teacher.js
 import { DataTypes } from "sequelize";
-import User from "./user.model.js"; // ตรวจสอบ path ให้ถูกต้อง
-import sequelize from "./db.js"; // path ต้องตรงกับ db.js จริง
-import bcrypt from "bcryptjs";
+import User from "./user.model.js";
 
-const Teacher = User.init(
+class Teacher extends User {}
+
+Teacher.init(
   {
     school: {
       type: DataTypes.STRING,
@@ -16,18 +16,12 @@ const Teacher = User.init(
     },
   },
   {
-    sequelize, // ✅ ต้องใส่ sequelize instance
+    sequelize: User.sequelize, // ✅ ใช้ instance จาก User
     modelName: "Teacher",
-    scopes: {
-      defaultScope: {
-        where: {
-          type: "teacher",
-        },
-      },
-    },
+    tableName: "teachers", // ถ้าอยากแยก table หรือใช้ users เดียวก็ได้
     hooks: {
-      beforeCreate: async (teacher) => {
-        teacher.type = "teacher";
+      beforeCreate: (teacher) => {
+        teacher.type = "teacher"; // กำหนด type ให้แยกประเภท
       },
     },
   }

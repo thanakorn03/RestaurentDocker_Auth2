@@ -1,17 +1,20 @@
+// Admin.js
+import { DataTypes } from "sequelize";
 import User from "./user.model.js";
-import sequelize from "./db.js";
 
-const Admin = User.init(
-  {},
+class Admin extends User {}
+
+Admin.init(
   {
-    sequelize,
+    department: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    sequelize: User.sequelize,
     modelName: "Admin",
-    scopes: {
-      defaultScope: { where: { type: "Admin" } },
-    },
+    tableName: "admins",
     hooks: {
-      beforeCreate: async (admin) => {
-        admin.type = "Admin";
+      beforeCreate: (admin) => {
+        admin.type = "admin";
       },
     },
   }

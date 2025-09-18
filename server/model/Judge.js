@@ -1,17 +1,20 @@
+// Judge.js
+import { DataTypes } from "sequelize";
 import User from "./user.model.js";
-import sequelize from "./db.js";
 
-const Judge = User.init(
-  {},
+class Judge extends User {}
+
+Judge.init(
   {
-    sequelize,
+    expertise: { type: DataTypes.STRING, allowNull: false },
+  },
+  {
+    sequelize: User.sequelize,
     modelName: "Judge",
-    scopes: {
-      defaultScope: { where: { type: "Judge" } },
-    },
+    tableName: "judges",
     hooks: {
-      beforeCreate: async (judge) => {
-        judge.type = "Judge";
+      beforeCreate: (judge) => {
+        judge.type = "judge";
       },
     },
   }
