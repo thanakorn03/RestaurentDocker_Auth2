@@ -22,7 +22,7 @@ transporter.verify((error, success) => {
 });
 // send verification email
 export const sendVerificationEmail = async (email, token, userName) => {
-    const verificationUrl = `${process.env.FRONTEND_URL}/api/v1/auth/verify-email?token=${token}`;
+    const verificationUrl = `${process.env.BACKEND_URL}/api/v1/auth/verify-email?token=${token}`;
     const mailOptions = {
         from:{
             name: 'ระบบการแข่งขันวันวิทยาศาสตร์',
